@@ -75,6 +75,8 @@ routes.get("/carregarNomes"  , NomesController.get);
 routes.put("/alterarNomes"   , NomesController.put);
 routes.get("/buscarNomes"    , NomesController.catch);
 routes.put("/excluirNomes", NomesController.delete);
+routes.get("/consultarNomes"   , NomesController.lookup);
+routes.get("/buscarNomesExato"   , NomesController.busca);
 
 routes.post("/criarTape"  , TapeController.post);
 routes.get("/listarTapes"   , TapeController.list);

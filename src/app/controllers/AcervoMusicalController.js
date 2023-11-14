@@ -68,25 +68,9 @@ class AcervoMusicalController {
 
   async catch(req, res) {
     const Op = Sequelize.Op;
-      let acervo_musical = await Acervo_musical.findAll({
-        include: [{
-          model: id,
-        }],
-        where: {
-          id: {
-            [Op.like]: req.query.acervo_musical + '%'
-          }
-        }
-      });
-      if (acervo_musical.length > 0) {
-        return res.status(200).json(acervo_musical);
-      } else {
         let acervo_musical = await Acervo_musical.findAll({
-          include: [{
-            model: Editora,
-          }],
           where: {
-            id: req.query.acervo_musical
+            id_tape: req.query.acervo_musical
           }
         });
         if (acervo_musical) {
@@ -97,6 +81,5 @@ class AcervoMusicalController {
       }
   }
 
-}
 
 export default new AcervoMusicalController();

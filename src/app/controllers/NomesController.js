@@ -2,7 +2,7 @@ import Nomes from "../models/nomes"
 import Sequelize from "sequelize";
 
 class NomesController {
- 
+
   async get(req, res) {
     const nomes = await Nomes.findOne({
       where: { id: req.query.id }
@@ -16,9 +16,9 @@ class NomesController {
 
   async delete(req, res) {
     await Nomes.update(
-      {bloqueado: "S"},
-      {where: { id: req.query.id }}
-      ).catch(function (err) {
+      { bloqueado: "S" },
+      { where: { id: req.query.id } }
+    ).catch(function (err) {
       return res.status(400).json({ retorno: "Falha ao excluir Nomes." });
     });
     return res.status(200).json({ retorno: "Nomes foi deletada com sucesso." });
@@ -37,11 +37,11 @@ class NomesController {
 
   async post(req, res) {
     const nomes = await Nomes.create(req.body)
-    if(nomes) {
-      return res.status(200).json({ retorno: 'Nomes incluida com sucesso' }); 
-      }else{
-        return res.status(400).json({ retorno: "Falha ao incluir nomes. "});
-  }
+    if (nomes) {
+      return res.status(200).json({ retorno: 'Nomes incluida com sucesso' });
+    } else {
+      return res.status(400).json({ retorno: "Falha ao incluir nomes. " });
+    }
   }
 
   async put(req, res) {
@@ -60,33 +60,58 @@ class NomesController {
       return res.status(404).json({ retorno: "Nomes não encontrado." });
     }
   }
+  async lookup(req, res) {
+    const nomesLista = await Nomes.findAll({
+    });
+    if (nomesLista) {
+      return res.status(200).json({ items: nomesLista });
+    } else {
+      return res.status(404).json({ retorno: "Não foram encontrados usuários cadastrados." });
+    }
+  }
 
   async catch(req, res) {
     const Op = Sequelize.Op;
-      let nomes = await Nomes.findAll({
-        limit: 100,
-        where: {
-          nome: {
-            [Op.like]:  '%'+req.query.nomes + '%'
-          }
-        }
-      });
-      if (nomes.length > 0) {
-        return res.status(200).json(nomes);
-      } else {
-        let nomes = await Nomes.findAll({
-          where: {
-            id: req.query.nomes
-          }
-        });
-        if (nomes) {
-          return res.status(200).json(nomes);
-        } else {
-          return res.status(200).json({ status: false, mensagem: "Não foi possível realizar a pesquisa no banco." });
+    let nomes = await Nomes.findAll({
+      limit: 100,
+      where: {
+        nome: {
+          [Op.like]: '%' + req.query.nomes + '%'
         }
       }
+    });
+    if (nomes.length > 0) {
+      return res.status(200).json(nomes);
+    } else {
+      let nomes = await Nomes.findAll({
+        where: {
+          id: req.query.nomes
+        }
+      });
+      if (nomes) {
+        return res.status(200).json(nomes);
+      } else {
+        return res.status(200).json({ status: false, mensagem: "Não foi possível realizar a pesquisa no banco." });
+      }
+    }
   }
 
+  
+  async busca(req, res) {
+    
+    let nomes = await Nomes.findAll({
+      where: {
+        id: req.query.nomes
+      }
+    });
+    if (nomes) {
+      return res.status(200).json(nomes);
+    } else {
+      return res.status(200).json({ status: false, mensagem: "Não foi possível realizar a pesquisa no banco." });
+    }
+  }
+  
 }
+
 
 export default new NomesController();
