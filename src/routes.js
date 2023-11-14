@@ -106,7 +106,9 @@ routes.put("/excluirAcervoMusical", AcervoMusicalController.delete);
 
 routes.post("/criarMusica"  , MusicaController.post);
 routes.get("/listarMusica"   , MusicaController.list);
+routes.get("/consultarMusica"   , MusicaController.lookup);
 routes.get("/carregarMusica"  , MusicaController.get);
+routes.get("/buscarMusicaExata"  , MusicaController.busca);
 routes.put("/alterarMusica"   , MusicaController.put);
 routes.get("/buscarMusica"    , MusicaController.catch);
 routes.put("/excluirMusica", MusicaController.delete);

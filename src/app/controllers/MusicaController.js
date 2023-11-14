@@ -49,6 +49,17 @@ class MusicaController {
     }
   }
 
+
+  async lookup(req, res) {
+    const musicaLista = await Musica.findAll({
+    });
+    if (musicaLista) {
+      return res.status(200).json({ items: musicaLista});
+    } else {
+      return res.status(404).json({ retorno: "Não foram encontrados usuários cadastrados." });
+    }
+  }
+
   async post(req, res) {
     const musica = await Musica.create(req.body)
     if (musica) {
@@ -75,6 +86,20 @@ class MusicaController {
       return res.status(404).json({ retorno: "Musica não encontrado." });
     }
   }
+  async busca(req, res) {
+    let musica = await Musica.findOne({
+      where: {
+        id: req.query.musica
+      }
+    });
+    if (musica) {
+      return res.status(200).json(musica);
+    } else {
+      return res.status(200).json({ status: false, mensagem: "Não foi possível realizar a pesquisa no banco." });
+    }
+  }
+
+  
 
   async catch(req, res) {
     const Op = Sequelize.Op;
