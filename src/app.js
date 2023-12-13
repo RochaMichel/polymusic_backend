@@ -15,7 +15,7 @@ class App {
   middlewares() {
     var listaPermicao = [
       "http://localhost:4200",
-      "http://192.168.0.22:4200",
+      "http://192.168.0.15:4200",
       "http://192.168.0.21:4200",
       "http://192.168.0.26:4200",
       "http://192.168.0.19:4200",

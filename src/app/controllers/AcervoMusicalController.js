@@ -7,7 +7,10 @@ class AcervoMusicalController {
  
   async get(req, res) {
     const acervo_musical = await Acervo_musical.findAll({
-      where: { id_tape: req.query.id }
+      where: { id_tape: req.query.id },
+      order: [
+        ['faixa','asc']
+      ]
     });
     if (acervo_musical) {
       return res.status(200).json(acervo_musical);
@@ -34,6 +37,9 @@ class AcervoMusicalController {
 
   async list(req, res) {
     const acervo_musicalLista = await Acervo_musical.findAll({
+      order: [
+        ['faixa','asc']
+      ]
     });
     if (acervo_musicalLista) {
       return res.status(200).json(acervo_musicalLista);
@@ -71,7 +77,10 @@ class AcervoMusicalController {
         let acervo_musical = await Acervo_musical.findAll({
           where: {
             id_tape: req.query.acervo_musical
-          }
+          },
+          order: [
+            ['faixa','asc']
+          ]
         });
         if (acervo_musical) {
           return res.status(200).json(acervo_musical);
@@ -83,3 +92,20 @@ class AcervoMusicalController {
 
 
 export default new AcervoMusicalController();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

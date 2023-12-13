@@ -83,6 +83,13 @@ routes.get("/listarTapes"   , TapeController.list);
 routes.get("/carregarTape"  , TapeController.get);
 routes.put("/alterarTape"   , TapeController.put);
 routes.get("/buscarTape"    , TapeController.catch);
+routes.get("/buscarTapeExato"    , TapeController.busca);
+routes.get("/buscarTapeExato1"    , TapeController.busca2);
+routes.get("/buscaTapesNomes"    , TapeController.buscaName);
+routes.get("/buscaTapesGrava"    , TapeController.buscaGrava);
+routes.get("/buscaTapesEtique"    , TapeController.buscaEtique);
+routes.get("/buscaTapesTipo"    , TapeController.buscaTipo);
+routes.get("/listaTapesSteam"    , TapeController.listaStream);
 routes.put("/excluirTape", TapeController.delete);
 
 routes.post("/criarPerfilDeAcesso"  , PerfilDeAcessoController.post);

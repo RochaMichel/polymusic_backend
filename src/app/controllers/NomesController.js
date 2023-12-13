@@ -61,13 +61,13 @@ class NomesController {
     }
   }
   async lookup(req, res) {
-    const nomesLista = await Nomes.findAll({
-    });
-    if (nomesLista) {
-      return res.status(200).json({ items: nomesLista });
-    } else {
-      return res.status(404).json({ retorno: "Não foram encontrados usuários cadastrados." });
-    }
+      const nomesLista = await Nomes.findAll({
+      });
+      if (nomesLista) {
+        return res.status(200).json({ items: nomesLista });
+      } else {
+        return res.status(204).json({ retorno: "Não foram encontrados usuários cadastrados." });
+      }
   }
 
   async catch(req, res) {
@@ -96,9 +96,9 @@ class NomesController {
     }
   }
 
-  
+
   async busca(req, res) {
-    
+
     let nomes = await Nomes.findAll({
       where: {
         id: req.query.nomes
@@ -110,7 +110,7 @@ class NomesController {
       return res.status(200).json({ status: false, mensagem: "Não foi possível realizar a pesquisa no banco." });
     }
   }
-  
+
 }
 
 

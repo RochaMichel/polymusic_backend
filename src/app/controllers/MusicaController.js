@@ -7,9 +7,6 @@ class MusicaController {
 
   async get(req, res) {
     const musica = await Musica.findOne({
-      include: [{
-        model: Editora,
-      }],
       where: { id: req.query.id }
     });
     if (musica) {
@@ -38,9 +35,6 @@ class MusicaController {
   async list(req, res) {
     const musicaLista = await Musica.findAll({
       limit: 100,
-      include: [{
-        model: Editora,
-      }],
     });
     if (musicaLista) {
       return res.status(200).json(musicaLista);
@@ -51,12 +45,30 @@ class MusicaController {
 
 
   async lookup(req, res) {
-    const musicaLista = await Musica.findAll({
-    });
-    if (musicaLista) {
-      return res.status(200).json({ items: musicaLista});
+    if (req.query.ids) {
+      const ids = req.query.ids.split(',');
+      const musicaLista = await Musica.findAll({
+        where: {
+          id: { [Sequelize.Op.in]: ids } 
+        }
+      });
+      
+      if (musicaLista.length > 0) {
+        return res.status(200).json({ items: musicaLista });
+      } else {
+        return res.status(204).json({ retorno: "Não foram encontradas músicas para os IDs fornecidos." });
+      }
     } else {
-      return res.status(404).json({ retorno: "Não foram encontrados usuários cadastrados." });
+      const array = [];
+      const musicaLista = await Musica.findAll({});
+      for (let index = 0; index < musicaLista.length; index++) {
+        array.push(musicaLista[index]);
+      }
+      if (musicaLista.length > 0) {
+        return res.status(200).json({ items: array });
+      } else {
+        return res.status(204).json({ retorno: "Não foram encontradas músicas cadastradas." });
+      }
     }
   }
 
@@ -87,10 +99,14 @@ class MusicaController {
     }
   }
   async busca(req, res) {
-    let musica = await Musica.findOne({
+    let musica = await Musica.findAll({
       where: {
-        id: req.query.musica
-      }
+        numero_tape: req.query.musica
+      },
+      order: [
+        ['lado', 'ASC'], 
+        [Sequelize.literal('CAST(faixa AS UNSIGNED)'), 'ASC']
+      ]
     });
     if (musica) {
       return res.status(200).json(musica);
@@ -105,9 +121,6 @@ class MusicaController {
     const Op = Sequelize.Op;
     let musica = await Musica.findAll({
       limit: 100,
-      include: [{
-        model: Editora,
-      }],
       where: {
         musica: {
           [Op.like]: req.query.musica + '%'
@@ -119,9 +132,6 @@ class MusicaController {
     } else {
       let musica = await Musica.findAll({
         limit: 100,
-        include: [{
-          model: Editora,
-        }],
         where: {
           id: req.query.musica
         }

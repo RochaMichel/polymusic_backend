@@ -8,20 +8,15 @@ class Tapes extends Model {
   static init(sequelize) {
     super.init(
       {
-        percentual_artistico: Sequelize.DOUBLE,
-        novo_numero: Sequelize.STRING,
+        numero_tape: Sequelize.STRING,
         titulo: Sequelize.STRING,
         artista: Sequelize.INTEGER,
         gravadora: Sequelize.INTEGER,
         etiqueta: Sequelize.INTEGER,
         produtor_musical: Sequelize.STRING,
         tipo_tape: Sequelize.INTEGER,
-        data_lancamento: Sequelize.DATE,
-        observacao: Sequelize.STRING,
+        tipos_midia: Sequelize.STRING,
         stream: Sequelize.BOOLEAN,
-        smi: Sequelize.STRING,
-        prateleira: Sequelize.STRING,
-        descricao: Sequelize.STRING,
         bloqueado: Sequelize.STRING
       },
       {
