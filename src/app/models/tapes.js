@@ -14,9 +14,12 @@ class Tapes extends Model {
         gravadora: Sequelize.INTEGER,
         etiqueta: Sequelize.INTEGER,
         produtor_musical: Sequelize.STRING,
+        agregadores: Sequelize.STRING,
         tipo_tape: Sequelize.INTEGER,
         tipos_midia: Sequelize.STRING,
         stream: Sequelize.BOOLEAN,
+        midiaDigital: Sequelize.BOOLEAN,
+        notStream: Sequelize.BOOLEAN,
         bloqueado: Sequelize.STRING
       },
       {

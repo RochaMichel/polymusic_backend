@@ -12,6 +12,8 @@ import Tipos_de_tapes from "../app/models/tipos_de_tapes";
 import Musica from "../app/models/musica";
 import Acervo_musical from "../app/models/acervo_musical";
 import Log from "../app/models/log";
+import Detail from "../app/models/detail";
+import Agregadores from "../app/models/agregadores";
 const models = [
   Usuario,
   Artista,
@@ -24,7 +26,9 @@ const models = [
   Tipos_de_tapes,
   Musica,
   Acervo_musical,
-  Log
+  Log,
+  Detail,
+  Agregadores
 ];
 
 class Database {

@@ -9,11 +9,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      percentual_artistico: {
-        type: Sequelize.DOUBLE,
-        allowNull: false,
-      },
-      novo_numero: {
+      numero_tape: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -29,6 +25,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      agregadores: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       etiqueta: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -41,28 +41,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      data_lancamento: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      observacao: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       stream: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      smi: {
-        type: Sequelize.STRING,
+      midiaDigital: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      prateleira: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      descricao: {
-        type: Sequelize.STRING,
+      not_stream: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       bloqueado: {

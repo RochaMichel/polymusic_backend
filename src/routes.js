@@ -12,12 +12,13 @@ import EtiquetaController from "./app/controllers/EtiquetaController";
 import GravadoraController from "./app/controllers/GravadoraController";
 import NomesController from "./app/controllers/NomesController";
 import TapeController from "./app/controllers/TapeController";
-//import TabelaController from "./app/controllers/TabelaController";
+import AgregadoresController from "./app/controllers/AgregadoresController";
 import EmailRecoveryController from "./app/controllers/EmailRecoveryController";
 import Tipos_de_tapesController from "./app/controllers/Tipos_de_tapesController"
 import MusicaController from "./app/controllers/MusicaController";
 import LogController from "./app/controllers/logController";
 import AcervoMusicalController from "./app/controllers/AcervoMusicalController";
+import DetailController from "./app/controllers/DetailController";
 
 const routes = new Router();
 
@@ -62,6 +63,13 @@ routes.put("/alteraEtiqueta"   , EtiquetaController.put);
 routes.get("/buscarEtiqueta"    , EtiquetaController.catch);
 routes.put("/excluirEtiqueta", EtiquetaController.delete);
 
+routes.post("/criarAgregadores"  , AgregadoresController.post);
+routes.get("/listaAgregadores"   , AgregadoresController.list);
+routes.get("/carregarAgregadores"  , AgregadoresController.get);
+routes.put("/alteraAgregadores"   , AgregadoresController.put);
+routes.get("/buscarAgregadores"    , AgregadoresController.catch);
+routes.put("/excluirAgregadores", AgregadoresController.delete);
+
 routes.post("/criarGravadora"  , GravadoraController.post);
 routes.get("/listaGravadoras"   , GravadoraController.list);
 routes.get("/carregarGravadora"  , GravadoraController.get);
@@ -90,6 +98,9 @@ routes.get("/buscaTapesGrava"    , TapeController.buscaGrava);
 routes.get("/buscaTapesEtique"    , TapeController.buscaEtique);
 routes.get("/buscaTapesTipo"    , TapeController.buscaTipo);
 routes.get("/listaTapesSteam"    , TapeController.listaStream);
+routes.get("/listaTapesTotal"    , TapeController.listaTapes);
+routes.get("/consultaEspecificaTape"    , TapeController.consultaTape);
+routes.put("/alterarStreamTape"    , TapeController.alterarStream);
 routes.put("/excluirTape", TapeController.delete);
 
 routes.post("/criarPerfilDeAcesso"  , PerfilDeAcessoController.post);
@@ -122,11 +133,14 @@ routes.put("/alterarMusica"   , MusicaController.put);
 routes.get("/buscarMusica"    , MusicaController.catch);
 routes.put("/excluirMusica", MusicaController.delete);
 
+
 routes.post("/criarTiposDeTapes"  , Tipos_de_tapesController.post);
 routes.get("/listaTiposDeTapes"   , Tipos_de_tapesController.list);
 routes.get("/carregarTiposDeTapes"  , Tipos_de_tapesController.get)
 routes.put("/alteraTiposDeTapes"   , Tipos_de_tapesController.put);
 routes.get("/buscarTiposDeTapes"    , Tipos_de_tapesController.catch);
+routes.get("/buscarDetail"    , DetailController.get);
+routes.get("/listaDetail"    , DetailController.busca);
 routes.put("/excluirTiposDeTapes", Tipos_de_tapesController.delete);
 
 //routes.use(authMiddleware); //requer autenticação

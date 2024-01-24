@@ -10,6 +10,7 @@ class Musica extends Model {
         autor: Sequelize.STRING,
         faixa: Sequelize.STRING,
         lado: Sequelize.STRING,
+        genero: Sequelize.STRING,
         numero_tape: Sequelize.STRING,
         bloqueado: Sequelize.STRING
       },

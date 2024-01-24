@@ -1,10 +1,10 @@
 import Sequelize, { Model } from "sequelize";
+import Detail from "./detail";
 
 class Tipos_de_tapes extends Model {
   static init(sequelize) {
     super.init(
       {
-        codigo: Sequelize.STRING,
         descricao: Sequelize.STRING,
         bloqueado: Sequelize.STRING
       },
@@ -15,6 +15,7 @@ class Tipos_de_tapes extends Model {
     );
   }
   static associate() {
+    this.hasOne(Detail, { foreignKey: 'idTipoTape', sourceKey: 'id'})
   }
 }
 

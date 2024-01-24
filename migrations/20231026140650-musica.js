@@ -9,24 +9,28 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      faixa: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      lado: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       musica: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      Album: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      ano: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      categoria: {
+      autor: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      editora: {
-        type: Sequelize.INTEGER,
+      genero: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      numero_tape: {
+        type: Sequelize.String,
         allowNull: true,
       },
       bloqueado: {

@@ -23,23 +23,6 @@ class App {
     ];
     this.server.use(cors({ origin: listaPermicao }));
     this.server.use(express.json());
-    /*
-             // catch 404 and forward to error handler
-             this.server.use(function(req, res, next) {
-                 next(createError(404));
-             });
-
-             // error handler
-             this.server.use(function(err, req, res, next) {
-                 // set locals, only providing error in development
-                 res.locals.message = err.message;
-                 res.locals.error = err;
-
-                 // render the error page
-                 res.status(err.status || 500);
-                 res.render('error' + res.locals.message);
-             });
-              */
   }
 
   routes() {
