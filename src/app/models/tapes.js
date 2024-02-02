@@ -3,6 +3,7 @@ import Artista from "./artista";
 import Etiqueta from "./etiqueta";
 import Gravadora from "./gravadora";
 import Tipos_de_tapes from "./tipos_de_tapes";
+import Nomes from "./nomes";
 
 class Tapes extends Model {
   static init(sequelize) {
@@ -29,7 +30,7 @@ class Tapes extends Model {
     );
   }
   static associate() {
-    this.hasOne(Artista       ,  { foreignKey: 'id'    , sourceKey: 'artista'})
+    this.hasOne(Nomes         ,  { foreignKey: 'id'    , sourceKey: 'artista'})
     this.hasOne(Etiqueta      ,  { foreignKey: 'id'    , sourceKey: 'etiqueta'})
     this.hasOne(Gravadora     ,  { foreignKey: 'id'    , sourceKey: 'gravadora'})
     this.hasOne(Tipos_de_tapes,  { foreignKey: 'id'    , sourceKey: 'tipo_tape'})

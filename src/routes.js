@@ -99,6 +99,7 @@ routes.get("/buscaTapesEtique"    , TapeController.buscaEtique);
 routes.get("/buscaTapesTipo"    , TapeController.buscaTipo);
 routes.get("/listaTapesSteam"    , TapeController.listaStream);
 routes.get("/listaTapesTotal"    , TapeController.listaTapes);
+routes.get("/buscarSuper"    , TapeController.buscaSuper);
 routes.get("/consultaEspecificaTape"    , TapeController.consultaTape);
 routes.put("/alterarStreamTape"    , TapeController.alterarStream);
 routes.put("/excluirTape", TapeController.delete);

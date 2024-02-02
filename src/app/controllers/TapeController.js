@@ -114,7 +114,22 @@ class TapeController {
       return res.status(404).json({ retorno: "Erro ao subir os tapes" });
     }
   }
+  async buscaSuper(req, res){
 
+
+      const tapesTit = await Tapes.findAll({
+        include: [{
+          model: Nomes,
+        }],
+        where: { titulo: { [Op.like]:  req.query.super  }, bloqueado: 'N' } })
+    
+      if(retornoSuper){
+      }else{
+        return res.status(404).json({ retorno: "Não exise nenhum registro com esse filtro" }); 
+      }
+    
+    
+  }
   async listaStream(req, res) {
     const tapesListaS = await Tapes.findAll({ where: { stream: 1, bloqueado: 'N' } }, registros => {
       const countS = registros.length;
@@ -214,60 +229,97 @@ class TapeController {
     if (req.query.filtroP === 'ON') {
       switch (req.query.filtroS) {
         case 'titulo':
-          tapes = await Tapes.findAll({ where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, stream: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+            model: Nomes,
+          }],
+           where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, stream: 1, bloqueado: 'N' } })
           if (tapes) {
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrada titulos com esse filtro: '" + req.query.conteudo + "'." });
           }
         case 'musica':
-          const musica = await Musica.findOne({ where: { musica: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
+          const musica = await Musica.findOne({
+           where: { musica: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (musica) {
-            tapes = await Tapes.findAll({ where: { numero_tape: musica.numero_tape, stream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: musica.numero_tape, stream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado musicas com esse filtro: '" + req.query.conteudo + "'." });
           }
         case 'genero':
-          const genero = await Musica.findOne({ where: { genero: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
+          const genero = await Musica.findOne({
+             where: { genero: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (genero) {
-            tapes = await Tapes.findAll({ where: { numero_tape: genero.numero_tape, stream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: genero.numero_tape, stream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "musicas com esse genero digitado: '" + req.query.conteudo + "'." });
           }
         case 'etiqueta':
-          const etiqueta = await Etiqueta.findOne({ where: { nome_etiqueta: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
+          const etiqueta = await Etiqueta.findOne({
+             where: { nome_etiqueta: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (etiqueta) {
-            tapes = await Tapes.findAll({ where: { etiqueta: etiqueta.id, stream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { etiqueta: etiqueta.id, stream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado etiquetas com esse filtro: '" + req.query.conteudo + "'." });
           }
         case 'gravadora':
-          const gravadora = await Gravadora.findOne({ where: { nome_gravadora: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
+          const gravadora = await Gravadora.findOne({
+             where: { nome_gravadora: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (gravadora) {
-            tapes = await Tapes.findAll({ where: { gravadora: gravadora.id, stream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { gravadora: gravadora.id, stream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado gravadoras com esse filtro: '" + req.query.conteudo + "'." });
           }
         case 'artista':
-          const nomes = await Nomes.findOne({ where: { nome: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
+          const nomes = await Nomes.findOne({
+             where: { nome: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (nomes) {
-            tapes = await Tapes.findAll({ where: { artista: nomes.id, stream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+              model: Nomes,
+            }],
+             where: { artista: nomes.id, stream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado artista com esse filtro: '" + req.query.conteudo + "'." });
           }
         default:
-          tapes = await Tapes.findAll({ where: { stream: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+            model: Nomes,
+          }],
+           where: { stream: 1, bloqueado: 'N' } })
           return res.status(200).json(tapes);
       }
     } else if (req.query.filtroP === 'NOT') {
       switch (req.query.filtroS) {
         case 'titulo':
-          tapes = await Tapes.findAll({ where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, notStream: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+            model: Nomes,
+          }],
+           where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, notStream: 1, bloqueado: 'N' } })
           if (tapes) {
             return res.status(200).json(tapes);
           } else {
@@ -276,7 +328,11 @@ class TapeController {
         case 'musica':
           const musica = await Musica.findOne({ where: { musica: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (musica) {
-            tapes = await Tapes.findAll({ where: { numero_tape: musica.numero_tape, notStream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: musica.numero_tape, notStream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado musicas com esse filtro: '" + req.query.conteudo + "'." });
@@ -284,7 +340,11 @@ class TapeController {
         case 'genero':
           const genero = await Musica.findOne({ where: { genero: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (genero) {
-            tapes = await Tapes.findAll({ where: { numero_tape: genero.numero_tape, notStream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: genero.numero_tape, notStream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "musicas com esse genero digitado: '" + req.query.conteudo + "'." });
@@ -292,7 +352,11 @@ class TapeController {
         case 'etiqueta':
           const etiqueta = await Etiqueta.findOne({ where: { nome_etiqueta: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (etiqueta) {
-            tapes = await Tapes.findAll({ where: { etiqueta: etiqueta.id, notStream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { etiqueta: etiqueta.id, notStream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado etiquetas com esse filtro: '" + req.query.conteudo + "'." });
@@ -300,7 +364,11 @@ class TapeController {
         case 'gravadora':
           const gravadora = await Gravadora.findOne({ where: { nome_gravadora: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (gravadora) {
-            tapes = await Tapes.findAll({ where: { gravadora: gravadora.id, notStream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { gravadora: gravadora.id, notStream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado gravadoras com esse filtro: '" + req.query.conteudo + "'." });
@@ -308,19 +376,31 @@ class TapeController {
         case 'artista':
           const nomes = await Nomes.findOne({ where: { nome: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (nomes) {
-            tapes = await Tapes.findAll({ where: { artista: nomes.id, notStream: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { artista: nomes.id, notStream: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado artista com esse filtro: '" + req.query.conteudo + "'." });
           }
         default:
-          tapes = await Tapes.findAll({ where: { notStream: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+              model: Nomes,
+            }],
+             where: { notStream: 1, bloqueado: 'N' } })
           return res.status(200).json(tapes);
       }
     } else if (req.query.filtroP === 'DIGT') {
       switch (req.query.filtroS) {
         case 'titulo':
-          tapes = await Tapes.findAll({ where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, midiaDigital: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+              model: Nomes,
+            }],
+             where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, midiaDigital: 1, bloqueado: 'N' } })
           if (tapes) {
             return res.status(200).json(tapes);
           } else {
@@ -329,7 +409,11 @@ class TapeController {
         case 'musica':
           const musica = await Musica.findOne({ where: { musica: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (musica) {
-            tapes = await Tapes.findAll({ where: { numero_tape: musica.numero_tape, midiaDigital: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: musica.numero_tape, midiaDigital: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado musicas com esse filtro: '" + req.query.conteudo + "'." });
@@ -337,7 +421,11 @@ class TapeController {
         case 'genero':
           const genero = await Musica.findOne({ where: { genero: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (genero) {
-            tapes = await Tapes.findAll({ where: { numero_tape: genero.numero_tape, midiaDigital: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: genero.numero_tape, midiaDigital: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "musicas com esse genero digitado: '" + req.query.conteudo + "'." });
@@ -345,7 +433,11 @@ class TapeController {
         case 'etiqueta':
           const etiqueta = await Etiqueta.findOne({ where: { nome_etiqueta: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (etiqueta) {
-            tapes = await Tapes.findAll({ where: { etiqueta: etiqueta.id, midiaDigital: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { etiqueta: etiqueta.id, midiaDigital: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado etiquetas com esse filtro: '" + req.query.conteudo + "'." });
@@ -353,7 +445,11 @@ class TapeController {
         case 'gravadora':
           const gravadora = await Gravadora.findOne({ where: { nome_gravadora: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (gravadora) {
-            tapes = await Tapes.findAll({ where: { gravadora: gravadora.id, midiaDigital: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { gravadora: gravadora.id, midiaDigital: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado gravadoras com esse filtro: '" + req.query.conteudo + "'." });
@@ -361,19 +457,31 @@ class TapeController {
         case 'artista':
           const nomes = await Nomes.findOne({ where: { nome: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (nomes) {
-            tapes = await Tapes.findAll({ where: { artista: nomes.id, midiaDigital: 1, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { artista: nomes.id, midiaDigital: 1, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado artista com esse filtro: '" + req.query.conteudo + "'." });
           }
         default:
-          tapes = await Tapes.findAll({ where: { midiaDigital: 1, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+              model: Nomes,
+            }],
+             where: { midiaDigital: 1, bloqueado: 'N' } })
           return res.status(200).json(tapes);
       }
     } else if (req.query.filtroP === 'OFF') {
       switch (req.query.filtroS) {
         case 'titulo':
-          tapes = await Tapes.findAll({ where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({ 
+           include: [{
+            model: Nomes,
+          }],
+           where: { titulo: { [Op.like]: '%' + req.query.conteudo + '%' }, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
           if (tapes) {
             return res.status(200).json(tapes);
           } else {
@@ -382,7 +490,11 @@ class TapeController {
         case 'musica':
           const musica = await Musica.findOne({ where: { musica: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (musica) {
-            tapes = await Tapes.findAll({ where: { numero_tape: musica.numero_tape, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: musica.numero_tape, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado musicas com esse filtro: '" + req.query.conteudo + "'." });
@@ -390,7 +502,11 @@ class TapeController {
         case 'genero':
           const genero = await Musica.findOne({ where: { genero: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (genero) {
-            tapes = await Tapes.findAll({ where: { numero_tape: genero.numero_tape, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { numero_tape: genero.numero_tape, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado musicas com esse genero digitado: '" + req.query.conteudo + "'." });
@@ -398,7 +514,11 @@ class TapeController {
         case 'etiqueta':
           const etiqueta = await Etiqueta.findOne({ where: { nome_etiqueta: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (etiqueta) {
-            tapes = await Tapes.findAll({ where: { etiqueta: etiqueta.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { etiqueta: etiqueta.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado etiquetas com esse filtro: '" + req.query.conteudo + "'." });
@@ -406,7 +526,11 @@ class TapeController {
         case 'gravadora':
           const gravadora = await Gravadora.findOne({ where: { nome_gravadora: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (gravadora) {
-            tapes = await Tapes.findAll({ where: { gravadora: gravadora.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { gravadora: gravadora.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado gravadoras com esse filtro: '" + req.query.conteudo + "'." });
@@ -414,13 +538,21 @@ class TapeController {
         case 'artista':
           const nomes = await Nomes.findOne({ where: { nome: { [Op.like]: '%' + req.query.conteudo + '%' }, bloqueado: 'N' } })
           if (nomes) {
-            tapes = await Tapes.findAll({ where: { artista: nomes.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+            tapes = await Tapes.findAll({
+              include: [{
+                model: Nomes,
+              }],
+               where: { artista: nomes.id, stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
             return res.status(200).json(tapes);
           } else {
             return res.status(404).json({ retorno: "Não foi encontrado artista com esse filtro: '" + req.query.conteudo + "'." });
           }
         default:
-          tapes = await Tapes.findAll({ where: { stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
+          tapes = await Tapes.findAll({
+            include: [{
+              model: Nomes,
+            }],
+             where: { stream: 0, notStream: 0, midiaDigital: 0, bloqueado: 'N' } })
           return res.status(200).json(tapes);
       }
     }
